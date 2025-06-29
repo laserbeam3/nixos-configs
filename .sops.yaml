@@ -1,0 +1,15 @@
+keys:
+  - &fortytwo age1r9nm5gushucgjfmfr5affnve2z7u65de377qnu6snk390xn6vg0q3h90hu
+creation_rules:
+  # We can set up specific regexes with some keys...
+  - path_regex: secrets/secrets.yaml$
+    key_groups:
+    - age:
+      - *fortytwo
+  # And encrypt everything else with this key.
+  - path_regex: .
+    key_groups:
+    - age:
+      - *fortytwo
+  # But really, we only really use one key right now, so we don't care that much...
+  # And we could add multiple keys everywhere if we'd be encrypting for different recipients.

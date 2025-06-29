@@ -1,0 +1,5 @@
+image=~/.config/wallpapers/Daytime.png
+indicator-radius=120
+indicator-thickness=30
+show-keyboard-layout
+ignore-empty-password
