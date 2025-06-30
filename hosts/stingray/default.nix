@@ -53,6 +53,9 @@
     printing.enable = true;
   };
 
+  # This should make USB devices mount automatically.
+  services.udisks2.enable = true;
+
   # Enable the desktop
   programs.steam.enable = true;
 

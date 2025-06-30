@@ -17,6 +17,10 @@
     settings.experimental-features = ["nix-command" "flakes"];
   };
 
+  # This should make USB devices mount automatically.
+  # https://wiki.nixos.org/wiki/USB_storage_devices
+  services.udiskie.enable = true;
+
   home = {
     username = lib.mkDefault "catalin";
     homeDirectory = lib.mkDefault "/home/${config.home.username}";
