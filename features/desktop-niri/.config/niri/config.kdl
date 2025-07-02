@@ -1,6 +1,21 @@
-// TODO: Document niri config.
-// TODO: Move to nix. It makes sense to have a default niri config, and to
-//       specify outputs for each host.
+##### Workspace management
+#
+# Alt + Tab => Works like in Windows, across all workspaces (this is ALWAYS
+#              needed as backup for anyone random at the keyboard.) We can't
+#              only have optimized shortcuts.
+# Super + A => Open the Overview (which lets you drag windows around)
+#
+# Modifiers to move arround (with your arrow keys):
+# Super                + arrows => Focus within a single workspace.
+# Super + Ctrl         + arrows => Focus between workspaces and outputs
+# Super + Shift        + arrows => Move column within a single workspace.
+# Super + Shift + Ctrl + arrows => Move column between workspaces and outputs.
+# Super + Shift + Alt  + arrows => Move windows in and out of columns.
+#
+# TLDR: Super always means "Affects your window manager", Shift always "moves",
+# Ctrl always means "between workspaces" and Alt means "fine grained".
+#
+
 
 spawn-at-startup "waybar"
 spawn-at-startup "swww-daemon"
