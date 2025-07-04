@@ -141,19 +141,21 @@
   ###### Build time settings.
 
   ### Secret management
+  # TODO. Investigate better storage for the .ssh key. Right now it's a readonly
+  # file owned by root in /persistent/nixos-build-time/...
+  #
   # All hosts need to read/access secrets.
   # Story: Setting up secrets took a lot of figuring out, here's the best way I
   # could get this working:
   #   1. I use an ssh key (ed25519). ssh keys are easy to store in secure
   #      places (including yubikeys)
-  #   2. To edit secrets, derive an age key:
-  #      `nix run nixpkgs#ssh-to-age -- -private-key -i [path_to_ssh_key] > [path_to_age_key]`
-  #   3. (Had to do it once, but optional) derive a public key and store it in .sops.yaml:
-  #      `nix-shell -p age -c age-keygen -y [path_to_age_key]`
-  #   4. Delete [path_to_age_key] (can be derived again anytime). One only
-  #      needs the public key to encrypt data!
-  #   5. Actually edit the secrets: `sops secrets.yml`
-  #   6. In here, we can just reference the ssh key directly.
+  #   2. To edit secrets, derive an age key (needed when editing secrets):
+  #      `nix run nixpkgs#ssh-to-age -- -private-key -i /persistent/nixos-build-time/.ssh/fortytwo > ~/.config/sops/age/keys.txt`
+  #   3. Derive a public key and store the value in .sops.yaml:
+  #      `nix shell nixpkgs#age -c age-keygen -y ~/.config/sops/age/keys.txt`
+  #   4. Actually edit the secrets: `sops secrets/secrets.yml`
+  #      (rerun step 2 if the private age key was deleted!)
+  #   5. In the settings below, we can reference the ssh key directly
   # My understanding is this REQUIRES ed25519 and would not work with RSA.
   #
   # Story: This is what I find cool about nixos. I needed "ssh-to-age" and

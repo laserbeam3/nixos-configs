@@ -1,5 +1,5 @@
 keys:
-  - &fortytwo age1r9nm5gushucgjfmfr5affnve2z7u65de377qnu6snk390xn6vg0q3h90hu
+  - &fortytwo age13j46a9vnpc8lga7jr9w0px2aapwpse0wyvne0ea6g4qjm68c2pnsweq49g
 creation_rules:
   # We can set up specific regexes with some keys...
   - path_regex: secrets/secrets.yaml$

@@ -10,7 +10,7 @@
 in {
   users.mutableUsers = false;
   users.users.catalin = {
-    hashedPasswordFile = config.sops.secrets."catalin/passwordHash".path;
+    hashedPasswordFile = config.sops.secrets.catalin-password.path;
     isNormalUser = true;
     shell = pkgs.zsh;
     extraGroups = ifTheyExist [
@@ -36,7 +36,8 @@ in {
     ];
   };
 
-  sops.secrets."catalin/passwordHash" = {
+  sops.secrets.catalin-password = {
+    sopsFile = ../../secrets/secrets.yaml;
     neededForUsers = true;
   };
 
