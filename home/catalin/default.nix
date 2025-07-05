@@ -36,6 +36,10 @@ in {
     ];
   };
 
+  services.xserver.enable = true;
+  services.xserver.xkb.layout = "us, ro";
+  services.xserver.xkb.options = "grp:win_space_toggle";
+
   sops.secrets.catalin-password = {
     sopsFile = ../../secrets/secrets.yaml;
     neededForUsers = true;

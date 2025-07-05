@@ -61,7 +61,8 @@ window-rule {
 input {
   keyboard {
     xkb {
-      layout "us"
+      layout "us,ro"
+      options "grp:win_space_toggle"
     }
     numlock
   }
