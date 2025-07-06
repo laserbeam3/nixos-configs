@@ -4,7 +4,7 @@
 //              needed as backup for anyone random at the keyboard.) We can't
 //              only have optimized shortcuts.
 // Super + A => Open the Overview (which lets you drag windows around)
-#
+//
 // Modifiers to move arround (with your arrow keys):
 // Super                + arrows => Focus within a single workspace.
 // Super + Ctrl         + arrows => Focus between workspaces and outputs
