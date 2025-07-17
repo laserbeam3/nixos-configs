@@ -30,5 +30,21 @@
       recursive = true;
       source = ./.config;
     };
+
+    ##########################################
+    #  Add host specific outputs for the attached monitors to the niri config.
+    file.".config/niri/config.kdl".text = lib.mkAfter ''
+      output "LG Electronics LG HDR DQHD 0x0004F94B" {
+        mode "5120x1440@60.000"
+        scale 1.0
+        variable-refresh-rate on-demand=true
+        focus-at-startup
+      }
+
+      output "Samsung Electric Company Q90A 0x01000E00" {
+        mode "1920x1080@60.000"
+        scale 1.0
+      }
+    '';
   };
 }
