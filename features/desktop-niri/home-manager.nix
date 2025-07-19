@@ -192,7 +192,9 @@
     input {
       keyboard {
         xkb {
-          layout "us"
+          model "pc104"
+          layout "us,ro(std)"
+          options "grp:win_space_toggle"
         }
         numlock
       }

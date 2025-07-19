@@ -57,6 +57,7 @@
       "group/gnetwork"
       "group/gperfstats"
       "group/gsound"
+      "niri/language"
       "custom/weather"
       # "idle_inhibitor"
       "clock"
@@ -336,6 +337,10 @@
         "balanced" = "<span><small> </small></span>";
         "power-saver" = "<span color='#a6e3a1'><small></small></span>";
       };
+    };
+
+    "niri/language" = {
+      "format" = "{shortDescription}";
     };
 
     "custom/weather" = {
