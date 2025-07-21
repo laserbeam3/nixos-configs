@@ -13,7 +13,7 @@
   ];
 
   home.packages = [
-    pkgs.albert  # Albert is our app launcher. Keybinding in niri.
+    pkgs.albert   # Albert is our app launcher. Keybinding in niri.
     pkgs.ghostty  # We need a terminal emulator always. Keybinding in niri.
 
     # Basic gnome apps (might want to change them later, but not worth now)
@@ -32,18 +32,13 @@
 
   home.file.".config/wallpapers" = {
     recursive = true;
-    source = ./.config/wallpapers;
+    source = ./assets/wallpapers;
   };
 
   home.file.".local/share/fonts/radial-progress.ttf" = {
     recursive = false;
     source = ./assets/radial-progress.ttf;
   };
-
-  ### Wallpaper
-  # We need a wallpaper daemon.
-  # WARNING. wpaperd keeps crashing! There are scary coredumps in systemd and
-  # overnight I lose my wallpaper. Should figure out dependencies or replace with something else.
 
   ### App switcher
   # Niri switcher is the most compenent app switcher I could find and works good enough to compare
@@ -146,6 +141,10 @@
   # host may override outputs, inputs and layouts based on default monitors
   # and input devices.
 
+  # TODO(catalin): Move this into a separate module file to learn about
+  # options in nix. The goal of that module is to let me extract window rules
+  # outside of the config file, and hide some of the syntax for that.
+
   home.file.".config/niri/config.kdl".text = ''
     spawn-at-startup "waybar"
     spawn-at-startup "swww-daemon"
@@ -180,6 +179,11 @@
 
     window-rule {
       match app-id="org.gnome.Nautilus" title="^Open (Folder|File)$"
+      open-floating true
+    }
+
+    window-rule {
+      match app-id="org.gnome.Nautilus" title="^Save (As|Folder|File)$"
       open-floating true
     }
 
@@ -250,132 +254,124 @@
     }
 
     binds {
-        // Mod-Shift-/, which is usually the same as Mod-?,
-        // shows a list of important hotkeys.
-        Mod+Shift+Slash { show-hotkey-overlay; }
+      // Mod-Shift-/, which is usually the same as Mod-?,
+      // shows a list of important hotkeys.
+      Mod+Shift+Slash { show-hotkey-overlay; }
 
-        // Suggested binds for running programs: terminal, app launcher, screen locker.
-        Mod+T hotkey-overlay-title="Open a Terminal: ghostty" { spawn "ghostty"; }
-        Mod+D hotkey-overlay-title="Run an Application: launcher" { spawn "albert" "toggle"; }
-        Mod+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
-        Mod+Tab repeat=false { spawn "niriswitcherctl" "show" "--window"; }
-        Mod+Shift+Tab repeat=false { spawn "niriswitcherctl" "show" "--window"; }
-        Mod+Grave repeat=false { spawn "niriswitcherctl" "show" "--workspace"; }
-        Mod+Shift+Grave repeat=false { spawn "niriswitcherctl" "show" "--workspace"; }
+      // Suggested binds for running programs: terminal, app launcher, screen locker.
+      Mod+T hotkey-overlay-title="Open a Terminal: ghostty" { spawn "ghostty"; }
+      Mod+D hotkey-overlay-title="Run an Application: launcher" { spawn "albert" "toggle"; }
+      Mod+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
 
-        // Example volume keys mappings for PipeWire & WirePlumber.
-        // The allow-when-locked=true property makes them work even when the session is locked.
-        XF86AudioRaiseVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.02+"; }
-        XF86AudioLowerVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.02-"; }
-        XF86AudioMute        allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle"; }
-        XF86AudioMicMute     allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SOURCE@" "toggle"; }
+      Mod+O repeat=false { toggle-overview; }
+      Mod+A repeat=false { toggle-overview; }
+      Mod+Q              { close-window; }
 
-        // Open/close the Overview: a zoomed-out view of workspaces and windows.
-        // You can also move the mouse into the top-left hot corner,
-        // or do a four-finger swipe up on a touchpad.
-        Mod+O repeat=false { toggle-overview; }
-        Mod+A repeat=false { toggle-overview; }
+      Mod+R              { switch-preset-column-width; }
+      Mod+Shift+R        { switch-preset-window-height; }
+      Mod+Ctrl+R         { reset-window-height; }
+      Mod+F              { maximize-column; }
+      Mod+Shift+F        { fullscreen-window; }
+      Mod+E              { expand-column-to-available-width; }
 
-        Mod+Q { close-window; }
+      Mod+C              { center-column; }
+      Mod+Ctrl+C         { center-visible-columns; }
 
-        Mod+Left  { focus-column-left; }
-        Mod+Right { focus-column-right; }
-        Mod+Up    { focus-window-up; }
-        Mod+Down  { focus-window-down; }
+      Mod+V              { toggle-window-floating; }
+      Mod+Shift+V        { switch-focus-between-floating-and-tiling; }
+      Mod+W              { toggle-column-tabbed-display; }
 
-        Mod+Shift+Left  { move-column-left; }
-        Mod+Shift+Right { move-column-right; }
-        Mod+Shift+Up    { move-window-up; }
-        Mod+Shift+Down  { move-window-down; }
+      Print              { screenshot; }
+      Ctrl+Print         { screenshot-window write-to-disk=false; }
+      Alt+Print          { screenshot-screen write-to-disk=false; }
 
-        // The following binds move the focused window in and out of a column.
-        // If the window is alone, they will consume it into the nearby column to the side.
-        // If the window is already in a column, they will expel it out.
-        Mod+Alt+Left  { consume-or-expel-window-left; }
-        Mod+Alt+Right { consume-or-expel-window-right; }
-        Mod+Alt+Up    { move-window-up; }
-        Mod+Alt+Down  { move-window-down; }
+      // Applications such as remote-desktop clients and software KVM switches may
+      // request that niri stops processing the keyboard shortcuts defined here
+      // so they may, for example, forward the key presses as-is to a remote machine.
+      // It's a good idea to bind an escape hatch to toggle the inhibitor,
+      // so a buggy application can't hold your session hostage.
+      //
+      // The allow-inhibiting=false property can be applied to other binds as well,
+      // which ensures niri always processes them, even when an inhibitor is active.
+      Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
 
-        Mod+Home { focus-column-first; }
-        Mod+End  { focus-column-last; }
-        Mod+Ctrl+Home { move-column-to-first; }
-        Mod+Ctrl+End  { move-column-to-last; }
+      // The quit action will show a confirmation dialog to avoid accidental exits.
+      Ctrl+Alt+Delete { quit; }
 
-        Mod+Ctrl+Left  { focus-monitor-left; }
-        Mod+Ctrl+Right { focus-monitor-right; }
-        Mod+Ctrl+Up    { focus-workspace-up; }
-        Mod+Ctrl+Down  { focus-workspace-down; }
+      // Example volume keys mappings for PipeWire & WirePlumber.
+      // The allow-when-locked=true property makes them work even when the session is locked.
+      XF86AudioRaiseVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.02+"; }
+      XF86AudioLowerVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.02-"; }
+      XF86AudioMute        allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle"; }
+      XF86AudioMicMute     allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SOURCE@" "toggle"; }
 
-        Mod+Shift+Ctrl+Left  { move-column-to-monitor-left; }
-        Mod+Shift+Ctrl+Right { move-column-to-monitor-right; }
-        Mod+Shift+Ctrl+Up    { move-column-to-workspace-up; }
-        Mod+Shift+Ctrl+Down  { move-column-to-workspace-down; }
+      // Alt+Tab!
+      Alt+Tab repeat=false { spawn "niriswitcherctl" "show" "--window"; }
+      Alt+Shift+Tab repeat=false { spawn "niriswitcherctl" "show" "--window"; }
+      Alt+Grave repeat=false { spawn "niriswitcherctl" "show" "--workspace"; }
+      Alt+Shift+Grave repeat=false { spawn "niriswitcherctl" "show" "--workspace"; }
 
-        Mod+Alt+Ctrl+Left  { move-window-to-monitor-left; }
-        Mod+Alt+Ctrl+Right { move-window-to-monitor-right; }
-        Mod+Alt+Ctrl+Up    { move-window-to-workspace-up; }
-        Mod+Alt+Ctrl+Down  { move-window-to-workspace-down; }
+      ///////////////////////////////////////////////////////////////////
+      // Everything below is about moving between windows via arrow keys.
 
-        // You can refer to workspaces by index. However, keep in mind that
-        // niri is a dynamic workspace system, so these commands are kind of
-        // "best effort".
-        Mod+1 { focus-workspace 1; }
-        Mod+2 { focus-workspace 2; }
-        Mod+3 { focus-workspace 3; }
-        Mod+4 { focus-workspace 4; }
-        Mod+5 { focus-workspace 5; }
-        Mod+6 { focus-workspace 6; }
-        Mod+7 { focus-workspace 7; }
-        Mod+8 { focus-workspace 8; }
-        Mod+9 { focus-workspace 9; }
+      Mod+Left  { focus-column-left; }
+      Mod+Right { focus-column-right; }
+      Mod+Up    { focus-window-up; }
+      Mod+Down  { focus-window-down; }
 
-        Mod+R { switch-preset-column-width; }
-        Mod+Shift+R { switch-preset-window-height; }
-        Mod+Ctrl+R { reset-window-height; }
-        Mod+F { maximize-column; }
-        Mod+Shift+F { fullscreen-window; }
-        Mod+C { center-column; }
-        Mod+Ctrl+C { center-visible-columns; }
+      Mod+Shift+Left  { move-column-left; }
+      Mod+Shift+Right { move-column-right; }
+      Mod+Shift+Up    { move-window-up; }
+      Mod+Shift+Down  { move-window-down; }
 
-        Mod+Minus       { set-column-width "-10%"; }
-        Mod+Equal       { set-column-width "+10%"; }
-        Mod+Shift+Minus { set-window-height "-10%"; }
-        Mod+Shift+Equal { set-window-height "+10%"; }
+      // The following binds move the focused window in and out of a column.
+      // If the window is alone, they will consume it into the nearby column to the side.
+      // If the window is already in a column, they will expel it out.
+      Mod+Alt+Left         { consume-or-expel-window-left; }
+      Mod+Alt+Right        { consume-or-expel-window-right; }
+      Mod+Alt+Up           { move-window-up; }
+      Mod+Alt+Down         { move-window-down; }
 
-        // Move the focused window between the floating and the tiling layout.
-        Mod+V       { toggle-window-floating; }
-        Mod+Shift+V { switch-focus-between-floating-and-tiling; }
+      Mod+Ctrl+Left        { focus-monitor-left; }
+      Mod+Ctrl+Right       { focus-monitor-right; }
+      Mod+Ctrl+Up          { focus-workspace-up; }
+      Mod+Ctrl+Down        { focus-workspace-down; }
 
-        // Toggle tabbed column display mode.
-        // Windows in this column will appear as vertical tabs,
-        // rather than stacked on top of each other.
-        Mod+W { toggle-column-tabbed-display; }
+      Mod+Shift+Ctrl+Left  { move-column-to-monitor-left; }
+      Mod+Shift+Ctrl+Right { move-column-to-monitor-right; }
+      Mod+Shift+Ctrl+Up    { move-column-to-workspace-up; }
+      Mod+Shift+Ctrl+Down  { move-column-to-workspace-down; }
 
-        // Actions to switch layouts.
-        // Note: if you uncomment these, make sure you do NOT have
-        // a matching layout switch hotkey configured in xkb options above.
-        // Having both at once on the same hotkey will break the switching,
-        // since it will switch twice upon pressing the hotkey (once by xkb, once by niri).
-        // Mod+Space       { switch-layout "next"; }
-        // Mod+Shift+Space { switch-layout "prev"; }
+      Mod+Alt+Ctrl+Left    { move-window-to-monitor-left; }
+      Mod+Alt+Ctrl+Right   { move-window-to-monitor-right; }
+      Mod+Alt+Ctrl+Up      { move-window-to-workspace-up; }
+      Mod+Alt+Ctrl+Down    { move-window-to-workspace-down; }
 
-        Print { screenshot; }
-        Ctrl+Print { screenshot-screen; }
-        Alt+Print { screenshot-window; }
+      // You can refer to workspaces by index. However, keep in mind that
+      // niri is a dynamic workspace system, so these commands are kind of
+      // "best effort".
+      Mod+1 { focus-workspace 1; }
+      Mod+2 { focus-workspace 2; }
+      Mod+3 { focus-workspace 3; }
+      Mod+4 { focus-workspace 4; }
+      Mod+5 { focus-workspace 5; }
+      Mod+6 { focus-workspace 6; }
+      Mod+7 { focus-workspace 7; }
+      Mod+8 { focus-workspace 8; }
+      Mod+9 { focus-workspace 9; }
 
-        // Applications such as remote-desktop clients and software KVM switches may
-        // request that niri stops processing the keyboard shortcuts defined here
-        // so they may, for example, forward the key presses as-is to a remote machine.
-        // It's a good idea to bind an escape hatch to toggle the inhibitor,
-        // so a buggy application can't hold your session hostage.
-        //
-        // The allow-inhibiting=false property can be applied to other binds as well,
-        // which ensures niri always processes them, even when an inhibitor is active.
-        Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
+      Mod+Minus       { set-column-width "-10%"; }
+      Mod+Equal       { set-column-width "+10%"; }
+      Mod+Shift+Minus { set-window-height "-10%"; }
+      Mod+Shift+Equal { set-window-height "+10%"; }
 
-        // The quit action will show a confirmation dialog to avoid accidental exits.
-        Mod+Shift+E { quit; }
-        Ctrl+Alt+Delete { quit; }
+      // Actions to switch layouts.
+      // Note: if you uncomment these, make sure you do NOT have
+      // a matching layout switch hotkey configured in xkb options above.
+      // Having both at once on the same hotkey will break the switching,
+      // since it will switch twice upon pressing the hotkey (once by xkb, once by niri).
+      // Mod+Space       { switch-layout "next"; }
+      // Mod+Shift+Space { switch-layout "prev"; }
     }
   '';
 
