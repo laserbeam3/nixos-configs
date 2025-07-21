@@ -55,15 +55,15 @@
       appearance = {
         icon_size = 96;
         workspace_format = "{output} {idx}";
-        animation.reveal.hide_duration = 100;
-        animation.reveal.show_duration = 100;
-        animation.resize.hide_duration = 100;
-        animation.resize.show_duration = 100;
-        animation.workspace.duration = 100;
-        animation.workspace.switch = 100;
+        animation.reveal.hide_duration = 80;
+        animation.reveal.show_duration = 80;
+        animation.resize.hide_duration = 80;
+        animation.resize.show_duration = 80;
+        animation.workspace.duration = 80;
+        animation.workspace.switch = 80;
       };
       keys = {
-        modifier = "Super";
+        modifier = "Alt";
         switch = {
           next = "Tab";
           prev = "Shift+Tab";
