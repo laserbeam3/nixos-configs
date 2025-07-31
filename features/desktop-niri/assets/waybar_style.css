@@ -7,77 +7,83 @@
 @define-color active @color6;
 
 * {
-  font-size: 18px;
-  font-family: "JetBrainsMonoNL Nerd Font Mono";
-  min-height: 0px;
-  min-width: 0px;
-  padding: 0px;
-  border-radius: 0;
-  border: none;
-  box-shadow: none;
-  font-weight: bold;
-  text-shadow: none;
-  color: @foreground;
+    font-size: 18px;
+    font-family: "JetBrainsMonoNL Nerd Font Mono";
+    min-height: 0px;
+    min-width: 0px;
+    padding: 0px;
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+    font-weight: bold;
+    text-shadow: none;
+    color: @foreground;
 }
 
 #waybar {
-  background-color: #181825;
-  transition-property: background-color;
-  transition-duration: 0.1s;
+    background-color: #181825;
+    transition-property: background-color;
+    transition-duration: 0.1s;
 }
 
 #window {
-  border-radius: 4px;
-  margin: 4px;
-  padding: 0px 0px 0px 8px;
-  color: @foreground;
+    border-radius: 4px;
+    margin: 4px;
+    padding: 0px 0px 0px 8px;
+    color: @foreground;
+}
+
+#custom-radial-progress-bg {
+    color: rgba(255, 255, 255, 0.2);
+    margin: -46px 0px 0px 0px;
+    font-size: 48;
 }
 
 #cpu,
 #memory,
-#pulseaudio.volume
-{
-  background-color: #181825;
-  margin: 0px;
-  font-size: 48;
+#pulseaudio.volume {
+    color: rgba(255, 255, 255, 1);
+    margin: -4px 0px 0px 0px;
+    font-size: 48;
 }
 
 #custom-memory-icon,
 #custom-cpu-icon {
-  margin: -31px 0px 20px 0px;
-  font-size: 10;
+    background-color: rgba(0, 0, 0, 0);
+    margin: -46px 0px 0px 0px;
+    font-size: 10;
 }
 
 #pulseaudio {
-  margin: -35px 0px 30px 0px;
-  font-size: 18;
+    margin: -46px 0px 0px 0px;
+    font-size: 18;
 }
 
 #privacy {
-  border-radius: 4px;
-  margin: 4px 4px;
-  padding: 4px 8px;
-  background-color: #1e1e2e;
+    border-radius: 4px;
+    margin: 4px 4px;
+    padding: 4px 8px;
+    background-color: #1e1e2e;
 }
 
 menu,
 tooltip {
-  border-radius: 8px;
-  padding: 16px;
-  background-color: #131822;
+    border-radius: 8px;
+    padding: 16px;
+    background-color: #131822;
 }
 
 menu label,
 tooltip label {
-  font-size: 16px;
-  background-color: #131822;
+    font-size: 16px;
+    background-color: #131822;
 }
 
 #tray {
-  margin: 8px 4px;
-  background-color: rgba(36, 36, 52, 1);
-  border-radius: 4px;
-  border-width: 0px;
+    margin: 8px 4px;
+    background-color: rgba(36, 36, 52, 1);
+    border-radius: 4px;
+    border-width: 0px;
 }
 
 #network.icon,
@@ -85,7 +91,7 @@ tooltip label {
 #custom-power,
 #custom-launcher,
 #custom-lock {
-  font-size: 28px;
+    font-size: 28px;
 }
 
 /* red: f1908e   c4a7a6 */
@@ -101,56 +107,56 @@ tooltip label {
 /* pinkrple: e291c7 */
 
 #tray > .needs-attention {
-  animation-name: blink-active;
-  animation-duration: 1s;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-  animation-direction: alternate;
+    animation-name: blink-active;
+    animation-duration: 1s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
 }
 
 #battery.discharging.warning {
-  animation-name: blink-yellow;
-  animation-duration: 1s;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-  animation-direction: alternate;
+    animation-name: blink-yellow;
+    animation-duration: 1s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
 }
 
 #battery.discharging.critical {
-  animation-name: blink-red;
-  animation-duration: 1s;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-  animation-direction: alternate;
+    animation-name: blink-red;
+    animation-duration: 1s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
 }
 
 #bluetooth.discoverable,
 #bluetooth.discovering,
 #bluetooth.pairable {
-  animation-name: blink-active;
-  animation-duration: 1s;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-  animation-direction: alternate;
+    animation-name: blink-active;
+    animation-duration: 1s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
 }
 
 @keyframes blink-active {
-  to {
-    background-color: @active;
-    color: @foreground;
-  }
+    to {
+        background-color: @active;
+        color: @foreground;
+    }
 }
 
 @keyframes blink-red {
-  to {
-    background-color: #c64d4f;
-    color: @foreground;
-  }
+    to {
+        background-color: #c64d4f;
+        color: @foreground;
+    }
 }
 
 @keyframes blink-yellow {
-  to {
-    background-color: #cf9022;
-    color: @foreground;
-  }
+    to {
+        background-color: #cf9022;
+        color: @foreground;
+    }
 }

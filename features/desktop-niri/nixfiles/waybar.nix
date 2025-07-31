@@ -91,6 +91,7 @@
       "orientation" = "inherit";
       "modules" = [
         "cpu"
+        "custom/radial-progress-bg"
         "custom/cpu-icon"
       ];
     };
@@ -99,6 +100,7 @@
     };
     "cpu" = {
       "format-icons" = [
+        " "
         ""
         ""
         ""
@@ -121,14 +123,20 @@
       "orientation" = "inherit";
       "modules" = [
         "memory"
+        "custom/radial-progress-bg"
         "custom/memory-icon"
       ];
+    };
+    "custom/radial-progress-bg" = {
+      "format" = "<span line_height='0.7ex'></span>";
+      "justify" = "center";
     };
     "custom/memory-icon" = {
       "format" = "mem";
     };
     "memory" = {
       "format-icons" = [
+        " "
         ""
         ""
         ""
@@ -185,6 +193,7 @@
       "orientation" = "inherit";
       "modules" = [
         "pulseaudio#volume"
+        "custom/radial-progress-bg"
         "pulseaudio"
       ];
     };
@@ -197,7 +206,6 @@
     "pulseaudio" = {
       "format" = "{icon}";
       "format-bluetooth" = "{icon}";
-      "tooltip-format" = "{volume}% {icon} | {desc}";
       "format-muted" = "󰖁";
       "format-icons" = {
         "headphones" = "󰋌";
@@ -212,6 +220,7 @@
 
     "pulseaudio#volume" = {
       "format-icons" = [
+        " "
         ""
         ""
         ""
@@ -226,8 +235,9 @@
         ""
       ];
       "format" = "<span line_height='0.7ex'>{icon}</span>";
+      "tooltip-format" = "{volume}% | {desc}";
       "on-click" = "pactl set-sink-mute @DEFAULT_SINK@ toggle";
-      "on-click-middle" = "pavucontrol";
+      "on-click-right" = "pavucontrol";
       "on-scroll-up" = "pactl set-sink-volume @DEFAULT_SINK@ +5%";
       "on-scroll-down" = "pactl set-sink-volume @DEFAULT_SINK@ -5%";
       "smooth-scrolling-threshold" = 1;
