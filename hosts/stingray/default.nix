@@ -10,7 +10,7 @@
 }: {
   imports = [
     inputs.hardware.nixosModules.common-cpu-amd
-    inputs.hardware.nixosModules.common-gpu-nvidia-nonprime
+    inputs.hardware.nixosModules.common-gpu-nvidia
     inputs.hardware.nixosModules.common-pc-ssd
 
     ./hardware-configuration.nix
@@ -60,8 +60,19 @@
   programs.steam.enable = true;
 
   # Requirements for feature/desktop-niri
-  services.xserver.videoDrivers = ["nvidia"];
-  hardware.nvidia.open = true;
+  services.xserver.videoDrivers = [
+    "amdgpu"
+    "nvidia"
+  ];
+  hardware.nvidia = {
+    open = true;
+    nvidiaSettings = true;
+    # Prime mode is imported from "github:nixos/nixos-hardware"
+    prime = {
+      amdgpuBusId = "PCI:16:0:0";
+      nvidiaBusId = "PCI:1:0:0";
+    };
+  };
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   system.stateVersion = "25.05"; # Did you read the comment?
