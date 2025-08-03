@@ -27,36 +27,62 @@
 }
 
 #window {
-    border-radius: 4px;
-    margin: 4px;
+    /* border-radius: 4px; */
+    margin: 0px 0px;
     padding: 0px 0px 0px 8px;
     color: @foreground;
 }
 
-#custom-radial-progress-bg {
-    color: rgba(255, 255, 255, 0.2);
+#custom-radial-progress-bg-inner {
+    color: rgba(255, 255, 255, 0.3);
     margin: -46px 0px 0px 0px;
-    font-size: 48;
+    font-size: 42px;
+}
+
+#custom-radial-progress-bg-outer {
+    color: rgba(255, 255, 255, 0.3);
+    margin: -47px 0px 0px 0px;
+    font-size: 56px;
+}
+
+#custom-nvidia-mem {
+    color: rgba(255, 128, 128, 1);
+    margin: -4px 0px 0px 0px;
+    font-size: 56px;
+}
+
+#custom-nvidia-cpu {
+    color: rgba(128, 255, 255, 1);
+    margin: -46px 0px 0px 0px;
+    font-size: 42px;
 }
 
 #cpu,
 #memory,
+#battery,
 #pulseaudio.volume {
     color: rgba(255, 255, 255, 1);
     margin: -4px 0px 0px 0px;
-    font-size: 48;
+    font-size: 56px;
+}
+
+#custom-gpu-icon {
+    background-color: rgba(0, 0, 0, 0);
+    margin: -50px 0px 0px 0px;
+    font-size: 9px;
 }
 
 #custom-memory-icon,
+#custom-battery-icon,
 #custom-cpu-icon {
     background-color: rgba(0, 0, 0, 0);
-    margin: -46px 0px 0px 0px;
-    font-size: 10;
+    margin: -48px 0px 0px 0px;
+    font-size: 10px;
 }
 
 #pulseaudio {
-    margin: -46px 0px 0px 0px;
-    font-size: 18;
+    margin: -48px 0px 0px 0px;
+    font-size: 18px;
 }
 
 #privacy {

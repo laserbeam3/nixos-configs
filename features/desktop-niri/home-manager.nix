@@ -14,11 +14,13 @@
 
   home.packages = [
     pkgs.albert   # Albert is our app launcher. Keybinding in niri.
+    pkgs.rofi-wayland  # Rofi is also our app launcher. Keybinding in niri.
     pkgs.ghostty  # We need a terminal emulator always. Keybinding in niri.
 
     # Basic gnome apps (might want to change them later, but not worth now)
     pkgs.gthumb    # File manager
     pkgs.nautilus  # Image viewer
+    pkgs.networkmanager_dmenu
 
     # I need a wallpaper
     pkgs.swww      # Apparently, I need a wallpaper daemon. Why. Ok. Sure...
@@ -33,6 +35,12 @@
   home.file.".config/wallpapers" = {
     recursive = true;
     source = ./assets/wallpapers;
+  };
+
+  # TODO. Should build this with nix instead of including it as a binary.
+  home.file.".config/scripts/waybar_gpu_metrics" = {
+    recursive = true;
+    source = ./assets/waybar_gpu_metrics;
   };
 
   home.file.".local/share/fonts/radial-progress.ttf" = {

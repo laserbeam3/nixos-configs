@@ -55,8 +55,12 @@
       "privacy#screen"
       "privacy#mic"
       "group/gnetwork"
-      "group/gperfstats"
+      "group/gcpu"
+      "group/gmemory"
+      "group/gnvidia"
       "group/gsound"
+      # "group/gbattery"
+      "network"
       "niri/language"
       "custom/weather"
       # "idle_inhibitor"
@@ -65,12 +69,15 @@
 
     ### The modules
 
-    "group/gperfstats" = {
-      "orientation" = "inherit";
-      "modules" = [
-        "group/gcpu"
-        "group/gmemory"
-      ];
+    # Just a transparent grey circle. Used as foreground (actually) for radial widgets.
+    "custom/radial-progress-bg-outer" = {
+      "format" = "<span line_height='0.62ex'></span>";
+      "justify" = "center";
+    };
+
+    "custom/radial-progress-bg-inner" = {
+      "format" = "<span line_height='0.62ex'></span>";
+      "justify" = "center";
     };
 
     "custom/launcher" = {
@@ -86,12 +93,16 @@
       "max-length" = 40;
     };
 
+    "tray" = {
+      "icon-size" = 24;
+      "spacing" = 4;
+    };
 
     "group/gcpu" = {
       "orientation" = "inherit";
       "modules" = [
         "cpu"
-        "custom/radial-progress-bg"
+        "custom/radial-progress-bg-outer"
         "custom/cpu-icon"
       ];
     };
@@ -114,7 +125,7 @@
         ""
         ""
       ];
-      "format" = "<span line_height='0.7ex'>{icon}</span>";
+      "format" = "<span line_height='0.62ex'>{icon}</span>";
       "justify" = "center";
       "on-click" = "ghostty -e btop";
     };
@@ -123,13 +134,9 @@
       "orientation" = "inherit";
       "modules" = [
         "memory"
-        "custom/radial-progress-bg"
+        "custom/radial-progress-bg-outer"
         "custom/memory-icon"
       ];
-    };
-    "custom/radial-progress-bg" = {
-      "format" = "<span line_height='0.7ex'></span>";
-      "justify" = "center";
     };
     "custom/memory-icon" = {
       "format" = "mem";
@@ -150,10 +157,73 @@
         ""
         ""
       ];
-      "format" = "<span line_height='0.7ex'>{icon}</span>";
+      "format" = "<span line_height='0.62ex'>{icon}</span>";
       "justify" = "center";
       "on-click" = "ghostty -e btop";
+      "tooltip-format" = "{used:0.1f}G ({percentage}%) used | {total:0.1f}G total";
     };
+
+    "group/gnvidia" = {
+      "orientation" = "inherit";
+      "modules" = [
+        "custom/nvidia-mem"
+        "custom/radial-progress-bg-outer"
+        "custom/nvidia-cpu"
+        "custom/radial-progress-bg-inner"
+        "custom/gpu-icon"
+      ];
+    };
+    "custom/gpu-icon" = {
+      "format" = "gpu";
+    };
+    "custom/nvidia-mem" = {
+      "format-icons" = [
+        " "
+        ""
+        ""
+        ""
+        ""
+        ""
+        ""
+        ""
+        ""
+        ""
+        ""
+        ""
+        ""
+      ];
+      "interval" = 10;
+      "exec" = "/home/catalin/.config/scripts/waybar_gpu_metrics --mem --tooltip";
+      "format" = "<span line_height='0.62ex'>{icon}</span>";
+      "justify" = "center";
+      "tooltip" = true;
+      "return-type" = "json";
+    };
+
+    "custom/nvidia-cpu" = {
+      "format-icons" = [
+        " "
+        ""
+        ""
+        ""
+        ""
+        ""
+        ""
+        ""
+        ""
+        ""
+        ""
+        ""
+        ""
+      ];
+      "interval" = 10;
+      "exec" = "/home/catalin/.config/scripts/waybar_gpu_metrics --usage";
+      "format" = "<span line_height='0.62ex'>{icon}</span>";
+      "justify" = "center";
+      "tooltip" = false;
+      "return-type" = "json";
+    };
+
 
     # TODO. Figure out how to read CPU temp in a reasonable way on multiple hardware.
     # "custom/cputemp" = {
@@ -163,59 +233,13 @@
     #   "return-type" = "json";
     # };
 
-    "privacy#screen" = {
-      "justify" = "center";
-      "icon-size" = 24;
-      "transition-duration" = 100;
-      "modules" = [
-        {
-          "type" = "screenshare";
-          "tooltip" = true;
-          "tooltip-icon-size" = 24;
-        }
-      ];
-    };
-
-    "privacy#mic" = {
-      "justify" = "center";
-      "icon-size" = 24;
-      "transition-duration" = 100;
-      "modules" = [
-        {
-          "type" = "audio-in";
-          "tooltip" = true;
-          "tooltip-icon-size" = 24;
-        }
-      ];
-    };
-
     "group/gsound" = {
       "orientation" = "inherit";
       "modules" = [
         "pulseaudio#volume"
-        "custom/radial-progress-bg"
+        "custom/radial-progress-bg-outer"
         "pulseaudio"
       ];
-    };
-
-    "tray" = {
-      "icon-size" = 24;
-      "spacing" = 4;
-    };
-
-    "pulseaudio" = {
-      "format" = "{icon}";
-      "format-bluetooth" = "{icon}";
-      "format-muted" = "󰖁";
-      "format-icons" = {
-        "headphones" = "󰋌";
-        "handsfree" = "󰋌";
-        "headset" = "󰋌";
-        "phone" = "";
-        "portable" = "";
-        "car" = " ";
-        "default" = "󰕾";
-      };
     };
 
     "pulseaudio#volume" = {
@@ -234,7 +258,7 @@
         ""
         ""
       ];
-      "format" = "<span line_height='0.7ex'>{icon}</span>";
+      "format" = "<span line_height='0.62ex'>{icon}</span>";
       "tooltip-format" = "{volume}% | {desc}";
       "on-click" = "pactl set-sink-mute @DEFAULT_SINK@ toggle";
       "on-click-right" = "pavucontrol";
@@ -243,36 +267,93 @@
       "smooth-scrolling-threshold" = 1;
     };
 
-    "network#icon" = {
+    "pulseaudio" = {
+      "format" = "{icon}";
+      "format-bluetooth" = "{icon}";
+      "format-muted" = "󰖁";
+      "format-icons" = {
+        "headphones" = "󰋌";
+        "handsfree" = "󰋌";
+        "headset" = "󰋌";
+        "phone" = "";
+        "portable" = "";
+        "car" = " ";
+        "default" = "󰕾";
+      };
+    };
+
+    "group/gbattery" = {
+      "orientation" = "inherit";
+      "modules" = [
+        "battery"
+        "custom/radial-progress-bg-inner"
+        # "power-profiles-daemon"
+      ];
+    };
+
+    "battery" = {
+      # "rotate" = 270;
+      "bat-compatibility" = true;
+      "states" = {
+        "good" = 95;
+        "warning" = 30;
+        "critical" = 15;
+      };
+      "format-icons" = [
+        " "
+        ""
+        ""
+        ""
+        ""
+        ""
+        ""
+        ""
+        ""
+        ""
+        ""
+        ""
+        ""
+      ];
+      "format" = "<span line_height='0.62ex'>{icon}</span>";
+      # "format-charging" = "<b>{icon} </b>";
+      # "format-full" = "<span color='#82A55F'><b>{icon}</b></span>";
+      "tooltip-format" = "{timeTo} {capacity} % | {power} W";
+    };
+
+    "power-profiles-daemon" = {
+      "format" = "{icon}";
+      "tooltip-format" = "Power profile = {profile}\nDriver = {driver}";
+      "tooltip" = true;
+      "format-icons" = {
+        "default" = "";
+        "performance" = "<span color='#B37F34'><small></small></span>";
+        "balanced" = "<span><small> </small></span>";
+        "power-saver" = "<span color='#a6e3a1'><small></small></span>";
+      };
+    };
+
+    "network" = {
       "format" = "{icon}";
       "format-icons" = {
         "wifi" = [
           "󰤨"
         ];
         "ethernet" = [
-          "󰈀"
+          "󰌘"
         ];
         "disconnected" = [
           "󰖪"
         ];
       };
       "format-wifi" = "󰤨";
-      "format-ethernet" = "󰈀";
+      "format-ethernet" = "󰌘";
       "format-disconnected" = "󰖪";
       "format-linked" = "󰈁";
-      "tooltip" = false;
-      "on-click" = "pgrep -x rofi &>/dev/null && notify-send rofi || networkmanager_dmenu";
-    };
-
-    "network#speed" = {
-      "format" = " {bandwidthDownBits} ";
-      "rotate" = 90;
-      "interval" = 5;
+      "tooltip" = true;
       "tooltip-format" = "{ipaddr}";
       "tooltip-format-wifi" = "{essid} ({signalStrength}%)   \n{ipaddr} | {frequency} MHz{icon} ";
       "tooltip-format-ethernet" = "{ifname} 󰈀 \n{ipaddr} | {frequency} MHz{icon}";
       "tooltip-format-disconnected" = "Not Connected to any type of Network";
-      "tooltip" = true;
       "on-click" = "pgrep -x rofi &>/dev/null && notify-send rofi || networkmanager_dmenu";
     };
 
@@ -301,25 +382,30 @@
       "on-click" = "rofi-bluetooth -config ~/.config/rofi/menu.d/network.rasi -i";
     };
 
-    "battery" = {
-      "rotate" = 270;
-      "states" = {
-        "good" = 95;
-        "warning" = 30;
-        "critical" = 15;
-      };
-      "format" = "{icon}";
-      "format-charging" = "<b>{icon} </b>";
-      "format-full" = "<span color='#82A55F'><b>{icon}</b></span>";
-      "format-icons" = [
-        "󰁻"
-        "󰁼"
-        "󰁾"
-        "󰂀"
-        "󰂂"
-        "󰁹"
+    "privacy#screen" = {
+      "justify" = "center";
+      "icon-size" = 24;
+      "transition-duration" = 100;
+      "modules" = [
+        {
+          "type" = "screenshare";
+          "tooltip" = true;
+          "tooltip-icon-size" = 24;
+        }
       ];
-      "tooltip-format" = "{timeTo} {capacity} % | {power} W";
+    };
+
+    "privacy#mic" = {
+      "justify" = "center";
+      "icon-size" = 24;
+      "transition-duration" = 100;
+      "modules" = [
+        {
+          "type" = "audio-in";
+          "tooltip" = true;
+          "tooltip-icon-size" = 24;
+        }
+      ];
     };
 
     "clock" = {
@@ -328,24 +414,12 @@
       "calendar" = {
         "mode" = "month";
         "mode-mon-col" = 3;
-        "weeks-pos" = "right";
+        "weeks-pos" = "left";
         "on-scroll" = 1;
         "on-click-right" = "mode";
         "format" = {
           "today" = "<span color='#a6e3a1'><b><u>{}</u></b></span>";
         };
-      };
-    };
-
-    "power-profiles-daemon" = {
-      "format" = "{icon}";
-      "tooltip-format" = "Power profile = {profile}\nDriver = {driver}";
-      "tooltip" = true;
-      "format-icons" = {
-        "default" = "";
-        "performance" = "<span color='#B37F34'><small></small></span>";
-        "balanced" = "<span><small> </small></span>";
-        "power-saver" = "<span color='#a6e3a1'><small></small></span>";
       };
     };
 
