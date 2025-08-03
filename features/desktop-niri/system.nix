@@ -66,6 +66,7 @@
     # TODO: Remove for the next official release of niri. The window manager
     # should start this automatically soon.
     pkgs.xwayland-satellite
+    pkgs.wdisplays
   ];
 
   environment.sessionVariables = {

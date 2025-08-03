@@ -10,6 +10,7 @@
   environment.systemPackages = [
     pkgs.bat          # Better cat
     pkgs.btop         # Sexier htop
+    pkgs.coreutils
     pkgs.curl
     pkgs.eza          # Sexier ls
     pkgs.fd           # Better find
@@ -22,6 +23,7 @@
     pkgs.tree         # Directory listings (compatibility, eza can do them to)
     pkgs.vim
     pkgs.wget
+    pkgs.zip
 
     pkgs.uv           # UV is too cool to not install everywhere!
 
