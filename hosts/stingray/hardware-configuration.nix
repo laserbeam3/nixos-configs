@@ -4,45 +4,52 @@
 { config, lib, pkgs, modulesPath, ... }:
 
 {
-  imports =
-    [ (modulesPath + "/installer/scan/not-detected.nix")
-    ];
+  imports = [
+    (modulesPath + "/installer/scan/not-detected.nix")
+  ];
 
-  boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usb_storage" "usbhid" "sd_mod" ];
+  boot.initrd.availableKernelModules = [
+    "ahci"
+    "nvme"
+    "sd_mod"
+    "usb_storage"
+    "usbhid"
+    "xhci_pci"
+  ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
 
-  fileSystems."/" =
-    { device = "/dev/disk/by-uuid/73995624-3d1c-4c74-a30a-c8dee4cc0b80";
-      fsType = "btrfs";
-      options = [ "subvol=rootfs" ];
-    };
+  fileSystems."/" = {
+    device = "/dev/disk/by-label/nixos";
+    fsType = "btrfs";
+    options = [ "subvol=rootfs" ];
+  };
 
-  fileSystems."/nix" =
-    { device = "/dev/disk/by-uuid/73995624-3d1c-4c74-a30a-c8dee4cc0b80";
-      fsType = "btrfs";
-      options = [ "subvol=nix" ];
-    };
+  fileSystems."/nix" = {
+    device = "/dev/disk/by-label/nixos";
+    fsType = "btrfs";
+    options = [ "subvol=nix" ];
+  };
 
-  fileSystems."/home" =
-    { device = "/dev/disk/by-uuid/73995624-3d1c-4c74-a30a-c8dee4cc0b80";
-      fsType = "btrfs";
-      options = [ "subvol=home" ];
-    };
+  fileSystems."/home" = {
+    device = "/dev/disk/by-label/nixos";
+    fsType = "btrfs";
+    options = [ "subvol=home" ];
+  };
 
-  fileSystems."/persistent" =
-    { device = "/dev/disk/by-uuid/73995624-3d1c-4c74-a30a-c8dee4cc0b80";
-      fsType = "btrfs";
-      neededForBoot = true;
-      options = [ "subvol=persistent" ];
-    };
+  fileSystems."/persistent" = {
+    device = "/dev/disk/by-label/nixos";
+    fsType = "btrfs";
+    neededForBoot = true;
+    options = [ "subvol=persistent" ];
+  };
 
-  fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/A167-B25B";
-      fsType = "vfat";
-      options = [ "fmask=0077" "dmask=0077" ];
-    };
+  fileSystems."/boot" = {
+    device = "/dev/disk/by-label/boot";
+    fsType = "vfat";
+    options = [ "fmask=0077" "dmask=0077" ];
+  };
 
   swapDevices = [ ];
 
