@@ -21,6 +21,9 @@
   # https://wiki.nixos.org/wiki/USB_storage_devices
   services.udiskie.enable = true;
 
+  # Custom configs.
+  desktopNiri.showNvidiaGpuWidget = true;
+
   home = {
     username = lib.mkDefault "catalin";
     homeDirectory = lib.mkDefault "/home/${config.home.username}";

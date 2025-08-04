@@ -61,9 +61,11 @@
       "group/gnetwork"
       "group/gcpu"
       "group/gmemory"
-      "group/gnvidia"
+    ]
+    ++ (if config.desktopNiri.showNvidiaGpuWidget then ["group/gnvidia"] else [])
+    ++ (if config.desktopNiri.showLaptopWidgets then ["group/gbattery"] else [])
+    ++ [
       "group/gsound"
-      # "group/gbattery"
       "network"
       "niri/language"
       "custom/weather"
