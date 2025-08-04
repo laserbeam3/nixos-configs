@@ -26,7 +26,7 @@
     "custom/launcher" = {
       "justify" = "center";
       "format" = "󱄅";
-      "on-click" = "albert toggle";
+      "on-click" = "~/.config/rofi/rofi-toggle.sh";
       "tooltip" = true;
       "tooltip-format" = "Start";
     };

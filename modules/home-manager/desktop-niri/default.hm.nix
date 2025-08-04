@@ -28,7 +28,6 @@
 
   config = {
     home.packages = [
-      pkgs.albert   # Albert is our app launcher. Keybinding in niri.
       pkgs.rofi-wayland  # Rofi is also our app launcher. Keybinding in niri.
       pkgs.ghostty  # We need a terminal emulator always. Keybinding in niri.
 
@@ -44,7 +43,12 @@
 
     home.file.".config/ghostty" = {
       recursive = true;
-      source = ./.config/ghostty;
+      source = ./assets/ghostty;
+    };
+
+    home.file.".config/rofi" = {
+      recursive = true;
+      source = ./assets/rofi;
     };
 
     home.file.".config/wallpapers" = {
@@ -94,29 +98,6 @@
       };
     };
 
-    ### App launcher
-    # We use albert because I find rofi and other similar minimalist launchers
-    # too minimal. I really need my launcher to do things like "timer 10
-    # minutes" to start a timer. If google can do small tasks like that, so
-    # should my launcher! Albert needs a background service to run. This service
-    # should start after the window manager.
-    systemd.user.services.albert = {
-      Unit = {
-        Description = "Albert launcher";
-        Before = "graphical-session.target";
-        BindsTo = "graphical-session.target";
-        Wants = "niri.service";
-        After = "niri.service";
-      };
-      Service = {
-        Type = "simple";
-        ExecStart = "${pkgs.albert}/bin/albert";
-      };
-      Install = {
-        WantedBy = ["graphical-session.target"];
-      };
-    };
-
     ### Theming
     # I like dark mode. Apparently I have to specify that in many many places.
     # I'm actually unsure I covered them all...
@@ -148,14 +129,10 @@
       };
 
       gtk3.extraConfig = {
-        Settings = ''
-          gtk-application-prefer-dark-theme = 1
-        '';
+        gtk-application-prefer-dark-theme = 1;
       };
       gtk4.extraConfig = {
-        Settings = ''
-          gtk-application-prefer-dark-theme = 1
-        '';
+        gtk-application-prefer-dark-theme = 1;
       };
     };
 
@@ -193,11 +170,6 @@
           inactive-color "#aab4a2"
           urgent-color "#b5a0f2"
         }
-      }
-
-      window-rule {
-        match title="^Settings — Albert$"
-        open-floating true
       }
 
       window-rule {
@@ -276,6 +248,16 @@
         }
       }
 
+      // A hot corner to activate the Overview is nice, but I want a different
+      // corner, not top left. I want a "start" button in top left right now.
+      // Until things change or other hot-corners get implemented, I shall turn
+      // them off.
+      gestures {
+        hot-corners {
+          off
+        }
+      }
+
       binds {
         // Mod-Shift-/, which is usually the same as Mod-?,
         // shows a list of important hotkeys.
@@ -283,7 +265,7 @@
 
         // Suggested binds for running programs: terminal, app launcher, screen locker.
         Mod+T hotkey-overlay-title="Open a Terminal: ghostty" { spawn "ghostty"; }
-        Mod+D hotkey-overlay-title="Run an Application: launcher" { spawn "albert" "toggle"; }
+        Mod+D hotkey-overlay-title="Run an Application: launcher" { spawn "~/.config/rofi/rofi-toggle.sh"; }
         Mod+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
 
         Mod+O repeat=false { toggle-overview; }
