@@ -1,18 +1,38 @@
-# WIP. Not yet imported anywhere. Still researching.
-# Goals:
-#   - enable virtualization
-#   - use qemu
-#   - figure out if we can install the vm declaratively form nix (download windows enterprise iso,
-#     save the activation key in secrets.yaml, setup the VM, and maybe even install an app from
-#     here? how far can we go? )
+# Virtualization with support for windows VMs.
 #
-# This should set up a windows VM for the windows apps I might need.
+# I'm really not sure about everything here. Mileage may vary. I know I haven't
+# gotten GPU drivers working yet.
 
 { inputs, outputs, lib, config, pkgs, ...}:
 {
-  # Phase 1. Copy paste from https://nixos.wiki/wiki/Virt-manager
-  programs.virt-manager.enable = lib.mkDefault true;
-  users.groups.libvirtd.members = ["catalin"];
-  virtualisation.libvirtd.enable = true;
+  hardware.graphics.enable = true;
+  programs.dconf.enable = true;
+  programs.virt-manager.enable = true;
+
+  boot.initrd.availableKernelModules = [ "amdgpu" "vfio-pci" ];
+
   virtualisation.spiceUSBRedirection.enable = true;
+  virtualisation.libvirtd = {
+    enable = true;
+    extraConfig = ''
+      uri_default = "qemu:///system"
+    '';
+    onBoot = "ignore";
+    onShutdown = "shutdown";
+    qemu = {
+      vhostUserPackages = [ pkgs.virtiofsd ];
+      package = pkgs.qemu_kvm;
+      runAsRoot = false;
+      swtpm.enable = true;
+      ovmf.enable = true;
+      ovmf.packages = [
+        (pkgs.OVMFFull.override {
+          secureBoot = true;
+          tpmSupport = true;
+          tlsSupport = true;
+          httpSupport = true;
+        }).fd
+      ];
+    };
+  };
 }

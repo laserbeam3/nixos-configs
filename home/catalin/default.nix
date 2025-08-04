@@ -20,6 +20,7 @@ in {
       "network"
       "networkmanager"
       "wheel"
+      "libvirtd"
     ];
     packages = [
       pkgs.imagemagick

@@ -23,6 +23,7 @@
 
     ../../features/common/system.nix
     ../../features/desktop-niri/system.nix
+    ../../features/windows-apps/system.nix
 
     inputs.home-manager.nixosModules.home-manager
     inputs.sops-nix.nixosModules.sops
