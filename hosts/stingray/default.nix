@@ -14,7 +14,6 @@
     inputs.hardware.nixosModules.common-pc-ssd
 
     ./hardware-configuration.nix
-    ./yubikey.nix
 
     # Disable RAM rgb lights. Well, sort of, the drivers for my particular ugly
     # RAM sticks appear to be implemented only in the upcoming release. They
@@ -24,6 +23,7 @@
     ../../modules/nixos/common.nix
     ../../modules/nixos/desktop-niri.nix
     ../../modules/nixos/virtualization-windows.nix
+    ../../modules/nixos/yubikey.nix
 
     inputs.home-manager.nixosModules.home-manager
     inputs.sops-nix.nixosModules.sops
