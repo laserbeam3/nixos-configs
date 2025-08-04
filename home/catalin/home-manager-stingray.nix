@@ -24,6 +24,12 @@
   # Custom configs.
   desktopNiri.showNvidiaGpuWidget = true;
 
+  # Hide OpenRGB from rofi apps.
+  xdg.desktopEntries.OpenRGB = {
+    name = "OpenRGB";
+    noDisplay = true;
+  };
+
   home = {
     username = lib.mkDefault "catalin";
     homeDirectory = lib.mkDefault "/home/${config.home.username}";
