@@ -21,9 +21,9 @@
     # still glow for now...
     ./disable-rgb.nix
 
-    ../../features/common/system.nix
-    ../../features/desktop-niri/system.nix
-    ../../features/windows-apps/system.nix
+    ../../modules/nixos/common.nix
+    ../../modules/nixos/desktop-niri.nix
+    ../../modules/nixos/virtualization-windows.nix
 
     inputs.home-manager.nixosModules.home-manager
     inputs.sops-nix.nixosModules.sops

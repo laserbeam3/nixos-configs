@@ -34,6 +34,7 @@
         };
         extensions.packages = with inputs.firefox-addons.packages.${pkgs.system}; [
           bitwarden
+          kagi-search
           ublock-origin
         ];
         settings = {

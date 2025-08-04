@@ -8,8 +8,8 @@
   ...
 }: {
   imports = [
-    ./nixfiles/waybar.nix
-    ./nixfiles/firefox.nix
+    ./nixfiles/waybar.hm.nix
+    ./nixfiles/firefox.hm.nix
   ];
 
   home.packages = [

@@ -8,8 +8,8 @@
   ...
 }: {
   imports = [
-    ../../features/common/home-manager.nix
-    ../../features/desktop-niri/home-manager.nix
+    ../../modules/home-manager/common.hm.nix
+    ../../modules/home-manager/desktop-niri/default.hm.nix
   ];
 
   nix = {
