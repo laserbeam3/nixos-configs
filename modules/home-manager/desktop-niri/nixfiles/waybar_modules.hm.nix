@@ -4,9 +4,11 @@
   home.packages = [
     pkgs.waybar
     pkgs.rofi-wayland
-    pkgs.wttrbar       # Weather widget
-    pkgs.pulseaudio    # We need this for `pactl`, even though we enable audio via pipewire
-    pkgs.pavucontrol   # The volume control applet
+    pkgs.wttrbar               # Weather widget
+    pkgs.pulseaudio            # We need this for `pactl`, even though we enable audio via pipewire
+    pkgs.pavucontrol           # The volume control applet
+    pkgs.networkmanager_dmenu  # Waybar widget for network selection uses this
+    pkgs.pinentry              # Needed by default by networkmanager_dmenu
   ];
 
   programs.waybar.settings.mainBar = {

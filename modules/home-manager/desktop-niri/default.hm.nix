@@ -32,9 +32,8 @@
       pkgs.ghostty  # We need a terminal emulator always. Keybinding in niri.
 
       # Basic gnome apps (might want to change them later, but not worth now)
-      pkgs.gthumb    # File manager
-      pkgs.nautilus  # Image viewer
-      pkgs.networkmanager_dmenu
+      pkgs.gthumb    # Image viewer
+      pkgs.nautilus  # File manager
 
       # I need a wallpaper
       pkgs.swww      # Apparently, I need a wallpaper daemon. Why. Ok. Sure...
