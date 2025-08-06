@@ -229,7 +229,7 @@
       "orientation" = "inherit";
       "modules" = [
         "battery"
-        "custom/radial-progress-bg-inner"
+        "custom/radial-progress-bg-outer"
         # "power-profiles-daemon"
       ];
     };
@@ -260,7 +260,7 @@
       "format" = "<span line_height='0.62ex'>{icon}</span>";
       # "format-charging" = "<b>{icon} </b>";
       # "format-full" = "<span color='#82A55F'><b>{icon}</b></span>";
-      "tooltip-format" = "{timeTo} {capacity} % | {power} W";
+      "tooltip-format" = "{timeTo} {capacity} % | {power} W | {health} % hp";
     };
 
     "power-profiles-daemon" = {
