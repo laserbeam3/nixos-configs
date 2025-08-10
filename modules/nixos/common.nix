@@ -15,7 +15,6 @@
     pkgs.eza          # Sexier ls
     pkgs.fd           # Better find
     pkgs.jq           # Json parsing and queries
-    pkgs.neofetch     # The cool thing that greets us
     pkgs.nettools     # netstat
     pkgs.python3Full  # For random pythons scripts. TODO: investigate uv on nixos
     pkgs.ripgrep      # Better grep
@@ -48,9 +47,6 @@
         enable = true;
         theme = "linuxonly";
       };
-      interactiveShellInit = ''
-        ${pkgs.neofetch}/bin/neofetch
-      '';
     };
   };
 
