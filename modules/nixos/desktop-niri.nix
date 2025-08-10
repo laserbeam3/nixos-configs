@@ -74,6 +74,16 @@
     DISPLAY = ":0";  # Required by x11 apps (such as steam)
   };
 
+  xdg.portal.config = {
+    niri = {
+      default = [ "gtk" "gnome" ];
+      "org.freedesktop.impl.portal.Access" = "gtk";
+      "org.freedesktop.impl.portal.Notification" = "gtk";
+      "org.freedesktop.impl.portal.Secret" = "gnome-keyring";
+      "org.freedesktop.impl.portal.FileChooser" = "gtk";
+    };
+  };
+
   # Fonts should be available to the whole system.
   fonts.fontDir.enable = true;
   # These are default font rendering settings. I have experimented at some point

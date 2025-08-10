@@ -33,7 +33,7 @@
 
       # Basic gnome apps (might want to change them later, but not worth now)
       pkgs.gthumb    # Image viewer
-      pkgs.nautilus  # File manager
+      pkgs.nemo-with-extensions  # File manager
 
       # I need a wallpaper
       pkgs.swww      # Apparently, I need a wallpaper daemon. Why. Ok. Sure...
@@ -135,6 +135,18 @@
       };
     };
 
+    xdg.desktopEntries.nemo = {
+        name = "Nemo";
+        exec = "${pkgs.nemo-with-extensions}/bin/nemo";
+    };
+    xdg.mimeApps = {
+        enable = true;
+        defaultApplications = {
+          "inode/directory" = [ "nemo.desktop" ];
+          "application/x-gnome-saved-search" = [ "nemo.desktop" ];
+        };
+    };
+
     ############################################################################
     # Niri shared configuration. Behaviour is shared across hosts, but each
     # host may override outputs, inputs and layouts based on default monitors
@@ -172,12 +184,12 @@
       }
 
       window-rule {
-        match app-id="org.gnome.Nautilus" title="^Open (Folder|File)$"
+        match app-id="xdg-desktop-portal-gtk" title="^Open (Folder|File)$"
         open-floating true
       }
 
       window-rule {
-        match app-id="org.gnome.Nautilus" title="^Save (As|Folder|File)$"
+        match app-id="xdg-desktop-portal-gtk" title="^Save (As|Folder|File)$"
         open-floating true
       }
 
