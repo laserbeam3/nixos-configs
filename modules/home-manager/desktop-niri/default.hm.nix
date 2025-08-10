@@ -300,7 +300,7 @@
         Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
 
         // The quit action will show a confirmation dialog to avoid accidental exits.
-        Ctrl+Alt+Delete { quit; }
+        Ctrl+Alt+Delete { spawn "~/.config/rofi/powermenu.sh"; }
 
         // Example volume keys mappings for PipeWire & WirePlumber.
         // The allow-when-locked=true property makes them work even when the session is locked.
