@@ -4,11 +4,12 @@
 theme="$HOME/.config/rofi/rofi-powermenu.rasi"
 
 # Options
-shutdown=' Shutdown'
-reboot=' Reboot'
+btop=' btop'
 lock=' Lock'
 suspend=' Suspend'
 logout='󰍃 Logout'
+reboot=' Reboot'
+shutdown=' Shutdown'
 yes=' Yes'
 no=' No'
 
@@ -39,7 +40,7 @@ confirm_exit() {
 
 # Pass variables to rofi dmenu
 run_rofi() {
-    echo -e "$lock\n$suspend\n$logout\n$reboot\n$shutdown" | rofi_cmd
+    echo -e "$btop\n$lock\n$suspend\n$logout\n$reboot\n$shutdown" | rofi_cmd
 }
 
 # Execute Command
@@ -64,6 +65,9 @@ confirm_and_run_cmd() {
 # Actions
 chosen="$(run_rofi)"
 case ${chosen} in
+    $btop)
+        ghostty --confirm-close-surface=false -e btop
+        ;;
     $shutdown)
         confirm_and_run_cmd --shutdown
         ;;

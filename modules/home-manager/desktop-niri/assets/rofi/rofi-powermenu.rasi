@@ -43,7 +43,7 @@ window {
     expand:                      false;
     orientation:                 horizontal;
     background-color:            transparent;
-    height:                      230px;
+    height:                      270px;
     // Add dummy widgets on left and right so the sizing
     // nicely centers mainbox, independent of resolution.
     children:                    [ dummy, mainbox, dummy ];
@@ -51,7 +51,7 @@ window {
 
 /*****----- Main Box -----*****/
 mainbox {
-    width:                       900px;
+    width:                       700px;
     expand:                      false;
     enabled:                     true;
     spacing:                     10px;
@@ -132,8 +132,8 @@ listview {
     cycle:                       true;
     dynamic:                     false;
     scrollbar:                   false;
-    columns:                     5;
-    lines:                       1;
+    columns:                     3;
+    lines:                       2;
     layout:                      vertical;
     reverse:                     false;
     fixed-height:                true;
