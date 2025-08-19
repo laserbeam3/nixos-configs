@@ -170,6 +170,14 @@
         clip-to-geometry true
       }
 
+      // Block password managers from screencasts
+      window-rule {
+        // TODO: Figure out if I can block the bitwarden extension in firefox?
+        match app-id="com.yubico.yubioath"
+
+        block-out-from "screen-capture"
+      }
+
       window-rule {
         match is-floating=false
         shadow {
