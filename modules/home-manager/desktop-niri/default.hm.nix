@@ -30,6 +30,7 @@
     home.packages = [
       pkgs.rofi-wayland  # Rofi is also our app launcher. Keybinding in niri.
       pkgs.ghostty  # We need a terminal emulator always. Keybinding in niri.
+      pkgs.brightnessctl  # For brightness control on laptops
 
       # Basic gnome apps (might want to change them later, but not worth now)
       pkgs.gthumb    # Image viewer
@@ -320,6 +321,10 @@
         XF86AudioLowerVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.02-"; }
         XF86AudioMute        allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle"; }
         XF86AudioMicMute     allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SOURCE@" "toggle"; }
+
+        // Example brightness key mappings for brightnessctl.
+        XF86MonBrightnessUp allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "+10%"; }
+        XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "10%-"; }
 
         // Alt+Tab!
         Alt+Tab repeat=false { spawn "niriswitcherctl" "show" "--window"; }
