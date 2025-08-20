@@ -20,7 +20,7 @@
     inputs.home-manager.nixosModules.home-manager
     inputs.sops-nix.nixosModules.sops
 
-    ../../home/catalin
+    ../../users/catalin
   ];
 
   # Bootloader.

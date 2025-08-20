@@ -42,5 +42,5 @@ in {
     neededForUsers = true;
   };
 
-  home-manager.users.catalin = import ./home-manager-${config.networking.hostName}.nix;
+  home-manager.users.catalin = import ./per-host-${config.networking.hostName}.hm.nix;
 }
