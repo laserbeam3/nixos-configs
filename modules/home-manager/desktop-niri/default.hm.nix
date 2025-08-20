@@ -24,6 +24,25 @@
       default = false;
       description = "Show laptop specific widgets in the taskbar (battery and such).";
     };
+
+    # Niri doesn't allow changing layout settings per output
+    # https://github.com/YaLTeR/niri/issues/401.
+    #
+    # As a workaround, I'll set the default layout to work well with laptops
+    # and small monitors, but override it for hosts where I know I have plenty
+    # of screen space. This string just gets inserted in the middle of the
+    # `layout` section.
+    columnLayout = lib.mkOption {
+      type = lib.types.str;
+      default = ''
+        default-column-width { proportion 1.0; }
+        preset-column-widths {
+          proportion 1.0
+          proportion 0.5
+        }
+      '';
+      description = "Column widths in niri layout. Defaults are configured for laptops and should be changed when using ultrawide monitors.";
+    };
   };
 
   config = {
@@ -225,12 +244,7 @@
         always-center-single-column
         default-column-display "normal"  // "normal" / "tabbed"
 
-        default-column-width { proportion 0.25; }
-        preset-column-widths {
-          proportion 0.25
-          proportion 0.3333
-          proportion 0.5
-        }
+        ${config.desktopNiri.columnLayout}
 
         focus-ring {
           width 5

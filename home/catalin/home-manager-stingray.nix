@@ -23,6 +23,14 @@
 
   # Custom configs.
   desktopNiri.showNvidiaGpuWidget = true;
+  desktopNiri.columnLayout = ''
+    default-column-width { proportion 0.25; }
+    preset-column-widths {
+      proportion 0.25
+      proportion 0.3333
+      proportion 0.5
+    }
+  '';
 
   # Hide OpenRGB from rofi apps.
   xdg.desktopEntries.OpenRGB = {
