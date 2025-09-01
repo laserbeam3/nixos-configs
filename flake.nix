@@ -58,9 +58,12 @@
     nixosConfigurations = {
       # Main desktop
       stingray = lib.nixosSystem {
-        modules = [
-          ./hosts/stingray
-        ];
+        modules = [ ./hosts/stingray ];
+        specialArgs = { inherit inputs outputs; };
+      };
+
+      timeeater = lib.nixosSystem {
+        modules = [ ./hosts/timeeater ];
         specialArgs = { inherit inputs outputs; };
       };
     };
